@@ -13,5 +13,10 @@ public class PlayerEditor : Editor {
         Handles.color = Color.red;
         Handles.DrawWireDisc(player.transform.position + (Vector3) player.bottomOffset,
             Vector3.back, player.collisionRadius);
+        
+        Vector3 pos = Input.mousePosition;
+        pos.z = Camera.main.nearClipPlane;
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(pos);
+        Handles.DrawWireDisc(mousePos, Vector3.back, player.mouseRadius);
     }
 }
