@@ -24,3 +24,27 @@ public abstract class Targeting
       return bestTarget;
    }
 }
+
+
+//
+// public abstract class Targeting
+// {
+//    public static Vector2 GetClosestTarget(Collider2D[] targets, Vector2 point)
+//    {
+//       Vector2 bestTarget = point;
+//       float closestDistanceSqr = Mathf.Infinity;
+//
+//       foreach (Collider2D potentialTarget in targets)
+//       {
+//          Vector2 directionToTarget = (Vector2)potentialTarget.transform.position - point;
+//          float dSqrToTarget = directionToTarget.sqrMagnitude;
+//
+//          if (dSqrToTarget < closestDistanceSqr)
+//          {
+//             closestDistanceSqr = dSqrToTarget;
+//             bestTarget = potentialTarget.transform.position;
+//          }
+//       }
+//       return bestTarget;
+//    }
+// }
