@@ -11,10 +11,13 @@ public class PlayerEditor : Editor {
         Handles.color = Color.green;
         Handles.DrawWireDisc(playerPos, Vector3.back, player.grappleRadius);
         
+        // draw player boost radius
+        Handles.DrawWireDisc(playerPos, Vector3.back, player.boostRadius);
+        
         // draw player detach radius
         Handles.color = Color.red;
         Handles.DrawWireDisc(playerPos, Vector3.back, player.detachRadius);
-
+        
         // draw player ground detection
         Handles.DrawWireDisc(playerPos + player.bottomOffset, Vector3.back, player.collisionRadius);
         

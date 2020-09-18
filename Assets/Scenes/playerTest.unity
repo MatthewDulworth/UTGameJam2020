@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 123981925}
   - component: {fileID: 123981927}
   - component: {fileID: 123981926}
-  m_Layer: 21
+  m_Layer: 20
   m_Name: Grapple Point (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -346,7 +346,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 362972764}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.93, y: -6.71, z: -1.466405}
+  m_LocalPosition: {x: -8.66, y: -8.53, z: -1.466405}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -413,19 +413,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundSpeed: 5
   airAcceleration: 30
-  grappleAccel: 60
   maxSpeed: 40
+  grappleAccel: 60
   grappleRadius: 17.07
   mouseRadius: 2
-  collisionRadius: 0.13
   detachRadius: 0.57
+  boostRadius: 2
+  collisionRadius: 0.13
   bottomOffset: {x: 0, y: -0.5}
-  targetLayer:
+  boostLayer:
     serializedVersion: 2
     m_Bits: 2097152
+  grapplePointLayer:
+    serializedVersion: 2
+    m_Bits: 1048576
   groundLayer:
     serializedVersion: 2
-    m_Bits: 4096
+    m_Bits: 8192
 --- !u!120 &362972770
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -535,7 +539,7 @@ GameObject:
   - component: {fileID: 522847456}
   - component: {fileID: 522847458}
   - component: {fileID: 522847457}
-  m_Layer: 21
+  m_Layer: 20
   m_Name: Grapple Point (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -644,7 +648,7 @@ GameObject:
   - component: {fileID: 1195808898}
   - component: {fileID: 1195808900}
   - component: {fileID: 1195808899}
-  m_Layer: 12
+  m_Layer: 13
   m_Name: Ground (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -753,7 +757,7 @@ GameObject:
   - component: {fileID: 1335390456}
   - component: {fileID: 1335390455}
   - component: {fileID: 1335390457}
-  m_Layer: 21
+  m_Layer: 20
   m_Name: Grapple Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -862,7 +866,7 @@ GameObject:
   - component: {fileID: 1341755022}
   - component: {fileID: 1341755024}
   - component: {fileID: 1341755023}
-  m_Layer: 12
+  m_Layer: 13
   m_Name: Ground (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1004,7 +1008,7 @@ GameObject:
   - component: {fileID: 1528291611}
   - component: {fileID: 1528291613}
   - component: {fileID: 1528291612}
-  m_Layer: 12
+  m_Layer: 13
   m_Name: Ground (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1113,7 +1117,7 @@ GameObject:
   - component: {fileID: 1705428421}
   - component: {fileID: 1705428420}
   - component: {fileID: 1705428419}
-  m_Layer: 12
+  m_Layer: 13
   m_Name: Ground (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1293,4 +1297,86 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1947119517
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1947119519}
+  - component: {fileID: 1947119518}
+  m_Layer: 21
+  m_Name: New Sprite
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &1947119518
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1947119517}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 89e2ced65dae54e0d9c3650ef6efb369, type: 3}
+  m_Color: {r: 0.13181043, g: 1, b: 0, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &1947119519
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1947119517}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10.43, y: -8.56, z: 0}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
