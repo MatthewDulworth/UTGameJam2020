@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
+<<<<<<< HEAD
   tags: []
+=======
+  tags:
+  - UpdraftTop
+>>>>>>> 3734622c2b1b67b00749729e0346d6ab1082b853
   layers:
   - Default
   - TransparentFX
@@ -17,7 +22,10 @@ TagManager:
   - 
   - 
   - 
+<<<<<<< HEAD
   - Ground
+=======
+>>>>>>> 3734622c2b1b67b00749729e0346d6ab1082b853
   - 
   - 
   - 
@@ -26,7 +34,12 @@ TagManager:
   - 
   - 
   - 
+<<<<<<< HEAD
   - GrapplePoints
+=======
+  - 
+  - 
+>>>>>>> 3734622c2b1b67b00749729e0346d6ab1082b853
   - 
   - 
   - 
