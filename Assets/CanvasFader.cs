@@ -8,17 +8,12 @@ public class CanvasFader : MonoBehaviour
 {
 
     public Image target;
+    public float time = 1f;
 
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        target.CrossFadeAlpha(0f, 0f, true);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -26,7 +21,7 @@ public class CanvasFader : MonoBehaviour
         if (other.gameObject.tag.ToLower().Equals("player"))
         {
             Debug.Log("Entry");
-            target.CrossFadeAlpha(1f, 2f, true);
+            target.CrossFadeAlpha(1f, time, true);
         }
 
     }
@@ -36,7 +31,7 @@ public class CanvasFader : MonoBehaviour
         if (other.gameObject.tag.ToLower().Equals("player"))
         {
             Debug.Log("Exit");
-            target.CrossFadeAlpha(0f, 2f, true);
+            target.CrossFadeAlpha(0f, time, true);
         }
 
     }

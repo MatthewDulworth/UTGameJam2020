@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7830189, g: 0.12853324, b: 0.12853324, a: 1}
+  m_Color: {r: 0.5137255, g: 0.11764707, b: 0.0627451, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -584,16 +584,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundSpeed: 4
   airAcceleration: 1
-  grappleAccel: 1
   maxSpeed: 1
+  grappleAccel: 1
   grappleRadius: 1
   mouseRadius: 1
-  collisionRadius: 1
   detachRadius: 1
+  boostRadius: 0
+  boostForce: 0
+  boostWait: 0
+  collisionRadius: 1
   bottomOffset: {x: 0, y: 0}
-  targetLayer:
+  boostLayer:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 0
+  grapplePointLayer:
+    serializedVersion: 2
+    m_Bits: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 1
@@ -708,7 +714,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   horizontalMax: 1
-  player: {fileID: 595014483}
+  verticalMax: 0.5
+  player: {fileID: 595014484}
   mainCamera: {fileID: 1497683197}
 --- !u!1 &652275219
 GameObject:
@@ -6021,6 +6028,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 22336146}
+  time: 1
 --- !u!58 &2015845499
 CircleCollider2D:
   m_ObjectHideFlags: 0
