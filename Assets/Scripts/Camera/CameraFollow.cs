@@ -6,11 +6,12 @@ public class CameraFollow : MonoBehaviour
 {
 
     public float horizontalMax = 1f;
+    public float verticalMax = .5f;
 
     [SerializeField]
-    private GameObject player;
-    private Rigidbody2D rb;
+    private Rigidbody2D player;
     [SerializeField]
+    [Tooltip("Make sure the camera is a child of the player!")]
     private GameObject mainCamera;
 
     private Vector3 cameraOffset;
@@ -26,32 +27,35 @@ public class CameraFollow : MonoBehaviour
         }
         cameraOffset = new Vector3(0, 0, 0);
         targetOffset = new Vector3(0, 0, 0);
-        rb = player.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
         
-        if (Input.GetKey("a"))
+        if (player.velocity.x < 0)
         {
             targetOffset.x = -horizontalMax;
         }
-        else if (Input.GetKey("d"))
+        else if (player.velocity.x > 0)
         {
             targetOffset.x = horizontalMax;
         }
-        else
+
+        if (player.velocity.y < 0)
         {
-            //targetOffset.x = 0;
-            //targetOffset.y = 0;
+            targetOffset.y = -verticalMax;
         }
+        else if (player.velocity.y > 0)
+        {
+            targetOffset.y = verticalMax;
+        }
+
 
         Vector3 newPos = mainCamera.transform.position;
 
         //Calculate and apply new camera offset
         newPos -= cameraOffset;
-        Vector3 vel = rb.velocity;
         cameraOffset = Vector3.SmoothDamp(cameraOffset, targetOffset, ref dummy, .1f, 2f);
         newPos += cameraOffset;
 
