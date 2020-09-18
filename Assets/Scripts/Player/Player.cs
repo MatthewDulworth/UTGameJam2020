@@ -51,7 +51,7 @@ public class Player : MonoBehaviour {
             GroundMovement();
         }
         else {
-            // AirMovement();
+            AirMovement();
         }
     }
 
