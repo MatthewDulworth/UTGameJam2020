@@ -1312,7 +1312,7 @@ GameObject:
   - component: {fileID: 1947119518}
   - component: {fileID: 1947119520}
   m_Layer: 21
-  m_Name: New Sprite
+  m_Name: Boost Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

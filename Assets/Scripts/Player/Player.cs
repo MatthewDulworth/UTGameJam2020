@@ -46,8 +46,7 @@ public class Player : MonoBehaviour {
 
     private void FixedUpdate() {
         AirBoost();
-        // Grapple();
-        //
+        Grapple();
         if (Grounded()) {
             GroundMovement();
         }
