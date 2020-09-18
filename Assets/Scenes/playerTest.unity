@@ -411,9 +411,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0794a5c1e1ea44ff0922c68247fef907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundSpeed: 5
-  airAcceleration: 30
-  maxSpeed: 40
+  groundSpeed: 10
+  airAcceleration: 15
+  maxSpeed: 20
   grappleAccel: 60
   grappleRadius: 17.07
   mouseRadius: 2
