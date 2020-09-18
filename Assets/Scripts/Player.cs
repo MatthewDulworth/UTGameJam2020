@@ -4,6 +4,8 @@ using UnityEngine;
 public class Player : MonoBehaviour {
     
     public float speed = 10;
+    public float grappleRange = 10;
+    public float grappleSpeed;
     private Rigidbody2D rb;
     
     private void Awake() {
@@ -12,12 +14,15 @@ public class Player : MonoBehaviour {
 
     private void FixedUpdate() {
         HandleMovement();
+        HandleGrapple();
     }
-
-    // handles movement
+    
+    private void HandleGrapple() {
+        
+    }
+    
     private void HandleMovement() {
         
-        // horizontal
         int x = 0;
         if (Input.GetKey(KeyCode.A)) {
             x += -1;
