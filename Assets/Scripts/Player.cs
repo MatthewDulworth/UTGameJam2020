@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
-using UnityEngine.XR;
 
 public class Player : MonoBehaviour {
     
@@ -28,7 +25,6 @@ public class Player : MonoBehaviour {
         if (Input.GetKey(KeyCode.D)) {
             x += 1;
         }
-        
         rb.velocity = new Vector2(x * speed, rb.velocity.y);
     }
 }
