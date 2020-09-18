@@ -1,15 +1,18 @@
-﻿using System.Data.SqlTypes;
+﻿using System;
+using System.Data.SqlTypes;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class Player : MonoBehaviour {
     public float speed = 10;
-    public float grappleRange = 10;
-    public float grappleSpeed;
+    
     public float clickRadius = 1;
-    public float grappleRadius;
+    public float grappleRadius = 5;
+    public float grappleSpeed;
+    
     public LayerMask targetLayer;
-
-    private FieldOfView fov;
+    public LayerMask obstacleLayer;
+    
     private Rigidbody2D rb;
 
     private bool grappling = false;
@@ -17,53 +20,48 @@ public class Player : MonoBehaviour {
 
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
-        fov = GetComponent<FieldOfView>();
     }
 
     private void FixedUpdate() {
-        //HandleMovement();
+        HandleMovement();
         Grapple();
         //HandleGrapple();
     }
 
     private void Grapple() {
+        
         if (Input.GetKeyDown(KeyCode.J)) {
-            Transform target = fov.ClosestTarget();
-            if (target) {
-                Debug.Log("grappling");
-                Vector2 point = target.position;
-                Vector2 dir = (grapplePoint - (Vector2) transform.position).normalized;
-                float dist = Vector2.Distance(transform.position, point);
-                rb.AddForce(dir * dist, ForceMode2D.Impulse);
+            Vector2 origin = transform.position;
+            Vector2 target = ClosestGrappleInRange(origin);
+
+            if (target != origin) {
+                rb.AddForce((target - origin) * grappleSpeed, ForceMode2D.Impulse);
             }
         }
     }
 
-    private void HandleGrapple() {
-        if (!grappling && Input.GetKeyDown(KeyCode.J)) {
-            Transform point = fov.ClosestTarget();
-            if (point) {
-                grappling = true;
-                grapplePoint = point.position;
-                Debug.Log("start");
-            }
-        }
-        else if (Input.GetKeyUp(KeyCode.J)) {
-            grappling = false;
-            Debug.Log("end");
-        }
+    private Vector2 ClosestGrappleInRange(Vector2 origin) {
+        Collider2D[] grapplePoints = Physics2D.OverlapCircleAll(transform.position, grappleRadius, targetLayer);
+        
+        if (grapplePoints.Length > 0) {
+            float closestDist = Mathf.Infinity;
+            Vector2 closestPoint = grapplePoints[0].transform.position;
 
-        if (grappling) {
-            Vector2 dir = (grapplePoint - (Vector2) transform.position).normalized;
-            rb.AddForce(speed * dir, ForceMode2D.Force);
-            Debug.Log("on-going");
-            if (Vector2.Distance(transform.position, grapplePoint) < 0.1) {
-                grappling = false;
-                Debug.Log("end");
+            foreach (Collider2D collide in grapplePoints) {
+                Vector2 point = collide.transform.position;
+                Vector2 direction = (point - origin).normalized;
+                float dist = Vector2.Distance(point, origin);
+
+                if (dist < closestDist && !Physics2D.Raycast(origin, direction, dist, obstacleLayer)) {
+                    closestDist = dist;
+                    closestPoint = collide.transform.position;
+                }
             }
+            return closestPoint;
         }
+        return origin;
     }
-
+    
     private void HandleMovement() {
         int x = 0;
         if (Input.GetKey(KeyCode.A)) {
@@ -88,6 +86,31 @@ public class Player : MonoBehaviour {
     //          if (grapplePoints.Length > 0) {
     //             Targeting.GetClosestTarget(grapplePoints, mousePos) 
     //          }
+    //     }
+    // }
+    
+     // private void HandleGrapple() {
+    //     if (!grappling && Input.GetKeyDown(KeyCode.J)) {
+    //         Transform point = fov.ClosestTarget();
+    //         if (point) {
+    //             grappling = true;
+    //             grapplePoint = point.position;
+    //             Debug.Log("start");
+    //         }
+    //     }
+    //     else if (Input.GetKeyUp(KeyCode.J)) {
+    //         grappling = false;
+    //         Debug.Log("end");
+    //     }
+    //
+    //     if (grappling) {
+    //         Vector2 dir = (grapplePoint - (Vector2) transform.position).normalized;
+    //         rb.AddForce(speed * dir, ForceMode2D.Force);
+    //         Debug.Log("on-going");
+    //         if (Vector2.Distance(transform.position, grapplePoint) < 0.1) {
+    //             grappling = false;
+    //             Debug.Log("end");
+    //         }
     //     }
     // }
 }
