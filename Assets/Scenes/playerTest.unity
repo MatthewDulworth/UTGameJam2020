@@ -416,6 +416,7 @@ MonoBehaviour:
   grappleAccel: 60
   maxSpeed: 40
   grappleRadius: 8
+  mouseRadius: 2
   collisionRadius: 0.13
   bottomOffset: {x: 0, y: -0.5}
   targetLayer:

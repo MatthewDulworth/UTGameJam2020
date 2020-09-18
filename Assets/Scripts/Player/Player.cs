@@ -95,7 +95,7 @@ public class Player : MonoBehaviour {
             Vector2 direction = (point - origin).normalized;
             float distance = Vector2.Distance(point, origin);
             
-            if (!Physics2D.Raycast(origin, direction, distance, groundLayer)) {
+            if (distance < grappleRadius && !Physics2D.Raycast(origin, direction, distance, groundLayer)) {
                 return point;
             }
         }
