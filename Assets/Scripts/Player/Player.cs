@@ -6,10 +6,12 @@ public class Player : MonoBehaviour {
     public float speed = 10;
     public float grappleRange = 10;
     public float grappleSpeed;
+    private FieldOfView fov;
     private Rigidbody2D rb;
     
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
+        fov = GetComponent<FieldOfView>();
     }
 
     private void FixedUpdate() {
@@ -18,7 +20,14 @@ public class Player : MonoBehaviour {
     }
     
     private void HandleGrapple() {
-        
+        if (Input.GetKeyDown(KeyCode.J)) {
+            if (fov.ClosestTarget() != null) {
+                Debug.Log("yeet");
+            }
+            else {
+                Debug.Log("no");
+            }
+        }
     }
     
     private void HandleMovement() {

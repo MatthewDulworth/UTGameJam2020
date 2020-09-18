@@ -31,7 +31,6 @@ public class FieldOfView : MonoBehaviour
    {
       range = Mathf.Max(range, 0);
       viewRadius = Mathf.Max(viewRadius, 0);
-
       range = Mathf.Min(range, viewRadius);
    }
 
