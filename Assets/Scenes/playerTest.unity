@@ -418,6 +418,7 @@ MonoBehaviour:
   grappleRadius: 17.07
   mouseRadius: 2
   collisionRadius: 0.13
+  detachRadius: 0.57
   bottomOffset: {x: 0, y: -0.5}
   targetLayer:
     serializedVersion: 2
