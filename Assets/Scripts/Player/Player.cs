@@ -1,5 +1,5 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
     // --- public vars --- //
@@ -36,6 +36,12 @@ public class Player : MonoBehaviour {
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
         lineRenderer = GetComponent<LineRenderer>();
+    }
+
+    private void Update() {
+        if (Input.GetKey(KeyCode.R)) {
+             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 
     private void FixedUpdate() {
