@@ -230,4 +230,22 @@ public class Player : MonoBehaviour {
     private bool Grounded() {
         return Physics2D.OverlapCircle((Vector2) transform.position + bottomOffset, collisionRadius, groundLayer);
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        GameObject obj = collision.gameObject;
+        if (obj.tag.ToLower().Equals("movingplatform"))
+        {
+            gameObject.transform.parent = obj.transform;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        GameObject obj = collision.gameObject;
+        if (obj.tag.ToLower().Equals("movingplatform"))
+        {
+            transform.parent = null;
+        }
+    }
 }

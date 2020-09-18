@@ -16,6 +16,7 @@ public class MovingPlatform : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        end = endPoint.transform.position;
         start = gameObject.transform.position;
     }
 
@@ -29,7 +30,7 @@ public class MovingPlatform : MonoBehaviour
         }
 
         Vector2 current = gameObject.transform.position;
-        Vector2 newPos = Vector2.Lerp(current, target, speed * Time.deltaTime);
+        Vector2 newPos = Vector2.MoveTowards(current, target, speed * Time.deltaTime);
         transform.position = newPos;
 
         //upon reaching end or start, go in the opposite direction
