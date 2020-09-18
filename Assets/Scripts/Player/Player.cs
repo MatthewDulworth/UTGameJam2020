@@ -72,7 +72,7 @@ public class Player : MonoBehaviour {
             Vector2 dir = (grapplePoint - origin).normalized;
             rb.AddForce(dir * grappleAccel);
             rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
-
+            
             lineRenderer.positionCount = 2;
             lineRenderer.SetPosition(0, origin);
             lineRenderer.SetPosition(1, grapplePoint);
