@@ -78,7 +78,7 @@ public class Player : MonoBehaviour {
             lineRenderer.SetPosition(0, origin);
             lineRenderer.SetPosition(1, grapplePoint);
 
-            if (Vector2.Distance(origin, grapplePoint) > detachRadius) {
+            if (Vector2.Distance(origin, grapplePoint) <= detachRadius) {
                 grappling = false;
             }
         }
