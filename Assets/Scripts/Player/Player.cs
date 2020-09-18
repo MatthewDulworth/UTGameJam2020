@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
     public float grappleRadius;
     public float mouseRadius;
     public float collisionRadius;
+    public float detachRadius;
     public Vector2 bottomOffset;
 
     public LayerMask targetLayer;
@@ -76,6 +77,10 @@ public class Player : MonoBehaviour {
             lineRenderer.positionCount = 2;
             lineRenderer.SetPosition(0, origin);
             lineRenderer.SetPosition(1, grapplePoint);
+
+            if (Vector2.Distance(origin, grapplePoint) > detachRadius) {
+                grappling = false;
+            }
         }
         else {
             grappling = false;
