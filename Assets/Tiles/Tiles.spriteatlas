@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Tiles
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 7c6546cce8e2293439b8d2f4253eeb94, type: 3}
+    totalSpriteSurfaceArea: 14336
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 2376107565742220442, guid: 7c6546cce8e2293439b8d2f4253eeb94, type: 3}
+  - {fileID: -8435285650344880516, guid: 7c6546cce8e2293439b8d2f4253eeb94, type: 3}
+  - {fileID: -2455287069041890485, guid: 7c6546cce8e2293439b8d2f4253eeb94, type: 3}
+  - {fileID: 1761957491966546689, guid: 7c6546cce8e2293439b8d2f4253eeb94, type: 3}
+  - {fileID: 778136270091268006, guid: 7c6546cce8e2293439b8d2f4253eeb94, type: 3}
+  - {fileID: 3400160013776356846, guid: 7c6546cce8e2293439b8d2f4253eeb94, type: 3}
+  - {fileID: 8266258911003420344, guid: 7c6546cce8e2293439b8d2f4253eeb94, type: 3}
+  - {fileID: 4755373664117421245, guid: 7c6546cce8e2293439b8d2f4253eeb94, type: 3}
+  - {fileID: -8717017754119436831, guid: 7c6546cce8e2293439b8d2f4253eeb94, type: 3}
+  - {fileID: -8420670720628680731, guid: 7c6546cce8e2293439b8d2f4253eeb94, type: 3}
+  - {fileID: -8390655142792797094, guid: 7c6546cce8e2293439b8d2f4253eeb94, type: 3}
+  - {fileID: 4035501790466999928, guid: 7c6546cce8e2293439b8d2f4253eeb94, type: 3}
+  - {fileID: -3386362785629855861, guid: 7c6546cce8e2293439b8d2f4253eeb94, type: 3}
+  - {fileID: 8923255143942298309, guid: 7c6546cce8e2293439b8d2f4253eeb94, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - tilemap_11
+  - tilemap_10
+  - tilemap_13
+  - tilemap_12
+  - tilemap_8
+  - tilemap_9
+  - tilemap_6
+  - tilemap_7
+  - tilemap_4
+  - tilemap_5
+  - tilemap_2
+  - tilemap_3
+  - tilemap_0
+  - tilemap_1
+  m_Tag: Tiles
+  m_IsVariant: 0
