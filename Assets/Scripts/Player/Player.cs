@@ -32,21 +32,24 @@ public class Player : MonoBehaviour {
     private Vector2 grapplePoint;
     private Rigidbody2D rb;
     private LineRenderer lineRenderer;
-
-    private void Awake() {
-        rb = GetComponent<Rigidbody2D>();
-        lineRenderer = GetComponent<LineRenderer>();
-    }
-
+    private Vector2 startPos;
+    
+    // mouse input
     private bool grapplePressed;
     private bool grappleHeld;
     private Vector2 mousePos;
-
+    
+    private void Awake() {
+        rb = GetComponent<Rigidbody2D>();
+        lineRenderer = GetComponent<LineRenderer>();
+        startPos = transform.position;
+    }
+    
     private void Update() {
         if (Input.GetKey(KeyCode.R)) {
-             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
-        
+
         Vector3 pos = Input.mousePosition;
         pos.z = Camera.main.nearClipPlane;
         mousePos = Camera.main.ScreenToWorldPoint(pos);
@@ -57,7 +60,7 @@ public class Player : MonoBehaviour {
     private void FixedUpdate() {
         AirBoost();
         Grapple();
-        if (Grounded()) {
+        if (Grounded() && !grappling) {
             GroundMovement();
         }
         else {
@@ -88,7 +91,7 @@ public class Player : MonoBehaviour {
     // --------------------------------------------------------------
     private void Grapple() {
         Vector2 origin = transform.position;
-        
+
         if (!grappling && grapplePressed) {
             grapplePoint = ClosestGrappleMouse();
 
@@ -110,7 +113,8 @@ public class Player : MonoBehaviour {
             if (Vector2.Distance(origin, grapplePoint) <= detachRadius) {
                 grappling = false;
             }
-        } else {
+        }
+        else {
             grappling = false;
             lineRenderer.positionCount = 0;
         }
@@ -186,34 +190,42 @@ public class Player : MonoBehaviour {
         if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D)) {
             return new Vector2(1, 1);
         }
+
         // down right 
         if (Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.S)) {
             return new Vector2(1, -1);
         }
+
         // down left
         if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A)) {
             return new Vector2(-1, -1);
         }
+
         // up left
         if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.W)) {
             return new Vector2(-1, 1);
         }
+
         // up
         if (Input.GetKey(KeyCode.W)) {
             return Vector2.up;
         }
+
         // right 
         if (Input.GetKey(KeyCode.D)) {
             return Vector2.right;
         }
+
         // down
         if (Input.GetKey(KeyCode.S)) {
             return Vector2.down;
         }
+
         // left
         if (Input.GetKey(KeyCode.A)) {
             return Vector2.left;
         }
+
         return Vector2.zero;
     }
 
@@ -238,20 +250,21 @@ public class Player : MonoBehaviour {
         return Physics2D.OverlapCircle((Vector2) transform.position + bottomOffset, collisionRadius, groundLayer);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
+    private void OnTriggerEnter2D(Collider2D collision) {
         GameObject obj = collision.gameObject;
-        if (obj.tag.ToLower().Equals("movingplatform"))
-        {
+        if (obj.tag.ToLower().Equals("movingplatform")) {
             gameObject.transform.parent = obj.transform;
+        }
+        
+        if (obj.tag.ToLower().Equals("hazard")) {
+            transform.position = startPos;
+            rb.velocity = Vector2.zero;
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
+    private void OnTriggerExit2D(Collider2D collision) {
         GameObject obj = collision.gameObject;
-        if (obj.tag.ToLower().Equals("movingplatform"))
-        {
+        if (obj.tag.ToLower().Equals("movingplatform")) {
             transform.parent = null;
         }
     }
