@@ -59,7 +59,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 13
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -186,15 +186,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundSpeed: 10
-  airAcceleration: 10
-  maxSpeed: 20
+  airAcceleration: 20
+  maxSpeed: 30
   grappleAccel: 60
-  grappleRadius: 17.07
+  grappleRadius: 7.5
   mouseRadius: 5.01
-  detachRadius: 0.57
   boostRadius: 0.98
-  boostForce: 10
-  boostWait: 1
+  boostForce: 13
   collisionRadius: 0.13
   bottomOffset: {x: 0, y: -0.5}
   boostLayer:
@@ -376,8 +374,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 863541cff6be82840b741deda6a5e56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  willUpdraft: 1
-  isPlayer: 0
+  willUpdraft: 0
+  isPlayer: 1
 --- !u!114 &466868379
 MonoBehaviour:
   m_ObjectHideFlags: 0
