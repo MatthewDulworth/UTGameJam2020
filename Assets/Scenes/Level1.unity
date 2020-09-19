@@ -1534,6 +1534,10 @@ PrefabInstance:
       propertyPath: orthographic size
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 4566355424755485082, guid: a2bafd2d02eceaf41b2e9e7a241297a6, type: 3}
+      propertyPath: m_TagString
+      value: MainCamera
+      objectReference: {fileID: 0}
     - target: {fileID: 4566355425121365553, guid: a2bafd2d02eceaf41b2e9e7a241297a6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.91
