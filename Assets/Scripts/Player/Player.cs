@@ -42,6 +42,7 @@ public class Player : MonoBehaviour {
     private bool leftHeld;
     private bool rightHeld;
     private bool downHeld;
+    private bool airBoostPressed;
 
     // --------------------------------------------------------------
     // Mono Methods
@@ -86,6 +87,10 @@ public class Player : MonoBehaviour {
         downHeld = Input.GetKey(KeyCode.S);
         leftHeld = Input.GetKey(KeyCode.A);
         rightHeld = Input.GetKey(KeyCode.D);
+
+        airBoostPressed = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) ||
+                          Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) ||
+                          airBoostPressed;
     }
 
     // --------------------------------------------------------------
@@ -141,10 +146,10 @@ public class Player : MonoBehaviour {
 
     private void AirBoost() {
         Vector2 playerPos = transform.position;
-        Vector2 dir = BoostDirection();
-        if (dir != Vector2.zero && Physics2D.OverlapCircle(playerPos, boostRadius, boostLayer)) {
+        if (airBoostPressed && Physics2D.OverlapCircle(playerPos, boostRadius, boostLayer)) {
             rb.velocity = Vector2.zero;
             rb.AddForce(BoostDirection() * boostForce, ForceMode2D.Impulse);
+            airBoostPressed = false;
         }
     }
 
