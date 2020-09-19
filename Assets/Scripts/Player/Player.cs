@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
@@ -31,6 +32,8 @@ public class Player : MonoBehaviour {
     private Rigidbody2D rb;
     private LineRenderer lineRenderer;
     private Vector2 startPos;
+    private GameObject[] grapplePoints;
+    private GameObject[] boostPoints;
 
     // mouse input
     private bool grapplePressed;
@@ -54,12 +57,19 @@ public class Player : MonoBehaviour {
         startPos = transform.position;
     }
 
+    private void Start() {
+        grapplePoints = GameObject.FindGameObjectsWithTag("GrapplePoint");
+        boostPoints = GameObject.FindGameObjectsWithTag("BoostPoint");
+    }
+
     private void Update() {
         if (Input.GetKey(KeyCode.R)) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
         UpdateInputs();
+        GrappleInRangeIndicator();
+        BoostInRangeIndicator();
     }
 
     private void FixedUpdate() {
@@ -176,25 +186,69 @@ public class Player : MonoBehaviour {
 
         // up
         if (upHeld) {
-            return Vector2.up;
+            return Vector2.up * 1.5f;
         }
 
         // right 
         if (rightHeld) {
-            return Vector2.right;
+            return Vector2.right * 1.5f;
         }
 
         // down
         if (downHeld) {
-            return Vector2.down;
+            return Vector2.down * 1.5f;
         }
 
         // left
         if (leftHeld) {
-            return Vector2.left;
+            return Vector2.left * 1.5f;
         }
 
         return Vector2.zero;
+    }
+
+    private void GrappleInRangeIndicator() {
+        Vector2 playerPos = transform.position;
+
+        foreach (GameObject gp in grapplePoints) {
+            SpriteRenderer sr = gp.GetComponent<SpriteRenderer>();
+            Vector2 point = gp.transform.position;
+            float distance = Vector2.Distance(playerPos, point);
+            bool inRange = distance <= grappleRadius;
+
+            if (inRange && sr.color.a != 1f) {
+                Vector2 direction = (point - playerPos).normalized;
+                if (!Physics2D.Raycast(playerPos, direction, distance, groundLayer)) {
+                    Color c = sr.color;
+                    c.a = 1f;
+                    sr.color = c;
+                }
+            }
+            else if (!inRange && sr.color.a == 1f) {
+                Color c = sr.color;
+                c.a = 0.5f;
+                sr.color = c;
+            }
+        }
+    }
+
+    private void BoostInRangeIndicator() {
+        Vector2 playerPos = transform.position;
+        foreach (GameObject bp in boostPoints) {
+            SpriteRenderer sr = bp.GetComponent<SpriteRenderer>();
+            bool inRange = Vector2.Distance(playerPos, bp.transform.position) <= boostRadius;
+
+            if (inRange && sr.color.a != 1f) {
+                Color c = sr.color;
+                c.a = 1f;
+                sr.color = c;
+            }
+            else if (!inRange && sr.color.a == 1f) {
+                Color c = sr.color;
+                c.a = 0.5f;
+                sr.color = c;
+            }
+        }
     }
 
     // --------------------------------------------------------------

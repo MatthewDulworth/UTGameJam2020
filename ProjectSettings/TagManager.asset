@@ -7,6 +7,8 @@ TagManager:
   - UpdraftTop
   - MovingPlatform
   - Hazard
+  - GrapplePoint
+  - BoostPoint
   layers:
   - Default
   - TransparentFX
