@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundSpeed: 10
-  airAcceleration: 15
+  airAcceleration: 10
   maxSpeed: 20
   grappleAccel: 60
   grappleRadius: 17.07
