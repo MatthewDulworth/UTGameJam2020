@@ -146,10 +146,10 @@ public class Player : MonoBehaviour {
 
     private void AirBoost() {
         Vector2 playerPos = transform.position;
-        if (airBoostPressed && Physics2D.OverlapCircle(playerPos, boostRadius, boostLayer)) {
+        Vector2 dir = BoostDirection();
+        if (dir != Vector2.zero && Physics2D.OverlapCircle(playerPos, boostRadius, boostLayer)) {
             rb.velocity = Vector2.zero;
             rb.AddForce(BoostDirection() * boostForce, ForceMode2D.Impulse);
-            airBoostPressed = false;
         }
     }
 
