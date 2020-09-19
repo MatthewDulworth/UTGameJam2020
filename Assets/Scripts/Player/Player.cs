@@ -50,7 +50,7 @@ public class Player : MonoBehaviour {
         Vector3 pos = Input.mousePosition;
         pos.z = Camera.main.nearClipPlane;
         mousePos = Camera.main.ScreenToWorldPoint(pos);
-        grapplePressed = Input.GetMouseButtonDown(0);
+        grapplePressed = Input.GetMouseButtonDown(0) || grapplePressed;
         grappleHeld = Input.GetMouseButton(0);
     }
 
@@ -88,24 +88,14 @@ public class Player : MonoBehaviour {
     // --------------------------------------------------------------
     private void Grapple() {
         Vector2 origin = transform.position;
-
-        if (grappleHeld) {
-            Debug.Log("Mouse button is held");
-        }
-        if (grapplePressed) {
-            Debug.Log("Mouse button was pressed");
-        }
-
+        
         if (!grappling && grapplePressed) {
             grapplePoint = ClosestGrappleMouse();
-            
-            Debug.Log("grapple start");
 
             if (grapplePoint != origin) {
                 grappling = true;
+                grapplePressed = false;
             }
-        } else if (grapplePressed && grappleHeld) {
-            Debug.Log(grappling);
         }
 
         if (grappleHeld && grappling) {
@@ -113,8 +103,6 @@ public class Player : MonoBehaviour {
             rb.AddForce(dir * grappleAccel);
             rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
 
-            Debug.Log("grappling");
-            
             lineRenderer.positionCount = 2;
             lineRenderer.SetPosition(0, origin);
             lineRenderer.SetPosition(1, grapplePoint);
@@ -123,7 +111,6 @@ public class Player : MonoBehaviour {
                 grappling = false;
             }
         } else {
-            Debug.Log("not grappling");
             grappling = false;
             lineRenderer.positionCount = 0;
         }
