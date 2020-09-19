@@ -2020,7 +2020,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 210311093, guid: 850752460587a4e249c9180c36cec3ee, type: 3}
       propertyPath: orthographic size
-      value: 17
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 210311094, guid: 850752460587a4e249c9180c36cec3ee, type: 3}
       propertyPath: m_LocalPosition.z
