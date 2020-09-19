@@ -222,12 +222,14 @@ public class Player : MonoBehaviour {
                     Color c = sr.color;
                     c.a = 1f;
                     sr.color = c;
+                    gp.transform.localScale = new Vector3(1f, 1f);
                 }
             }
             else if (!inRange && sr.color.a == 1f) {
                 Color c = sr.color;
                 c.a = 0.5f;
                 sr.color = c;
+                gp.transform.localScale = new Vector3(0.5f, 0.5f);
             }
         }
     }
@@ -297,6 +299,7 @@ public class Player : MonoBehaviour {
         if (obj.tag.ToLower().Equals("hazard")) {
             transform.position = startPos;
             rb.velocity = Vector2.zero;
+            grappling = false;
         }
     }
 
