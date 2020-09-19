@@ -11,7 +11,6 @@ public class Player : MonoBehaviour {
     public float grappleAccel;
     public float grappleRadius;
     public float mouseRadius;
-    public float detachRadius;
 
     // boost
     public float boostRadius;
@@ -39,6 +38,13 @@ public class Player : MonoBehaviour {
     private bool grappleHeld;
     private Vector2 mousePos;
     
+    // direction input
+    private bool airBoostPressed;
+    private bool UpHeld;
+    private bool LeftHeld;
+    private bool RightHeld;
+    private bool DownHeld;
+
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
         lineRenderer = GetComponent<LineRenderer>();
@@ -49,14 +55,9 @@ public class Player : MonoBehaviour {
         if (Input.GetKey(KeyCode.R)) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
-
-        Vector3 pos = Input.mousePosition;
-        pos.z = Camera.main.nearClipPlane;
-        mousePos = Camera.main.ScreenToWorldPoint(pos);
-        grapplePressed = Input.GetMouseButtonDown(0) || grapplePressed;
-        grappleHeld = Input.GetMouseButton(0);
+        UpdateInputs();
     }
-
+    
     private void FixedUpdate() {
         AirBoost();
         Grapple();
@@ -68,17 +69,31 @@ public class Player : MonoBehaviour {
         }
     }
 
+    private void UpdateInputs() {
+        Vector3 pos = Input.mousePosition;
+        pos.z = Camera.main.nearClipPlane;
+        mousePos = Camera.main.ScreenToWorldPoint(pos);
+        grapplePressed = Input.GetMouseButtonDown(0) || grapplePressed;
+        grappleHeld = Input.GetMouseButton(0);
+
+        airBoostPressed = Input.GetKeyDown(KeyCode.LeftShift) || airBoostPressed;
+        UpHeld = Input.GetKey(KeyCode.W);
+        DownHeld = Input.GetKey(KeyCode.S);
+        LeftHeld = Input.GetKey(KeyCode.A);
+        RightHeld = Input.GetKey(KeyCode.D);
+    }
+
 
     // --------------------------------------------------------------
     // Air Movement
     // --------------------------------------------------------------
     private void AirMovement() {
         int x = 0;
-        if (Input.GetKey(KeyCode.A)) {
+        if (LeftHeld) {
             x += -1;
         }
 
-        if (Input.GetKey(KeyCode.D)) {
+        if (RightHeld) {
             x += 1;
         }
 
@@ -109,10 +124,6 @@ public class Player : MonoBehaviour {
             lineRenderer.positionCount = 2;
             lineRenderer.SetPosition(0, origin);
             lineRenderer.SetPosition(1, grapplePoint);
-
-            if (Vector2.Distance(origin, grapplePoint) <= detachRadius) {
-                grappling = false;
-            }
         }
         else {
             grappling = false;
@@ -178,51 +189,52 @@ public class Player : MonoBehaviour {
             }
         }
 
-        else if (Input.GetKeyDown(KeyCode.LeftShift) && Physics2D.OverlapCircle(playerPos, boostRadius, boostLayer)) {
+        else if (airBoostPressed && Physics2D.OverlapCircle(playerPos, boostRadius, boostLayer)) {
             rb.velocity = Vector2.zero;
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
             boostWaitRemaining = boostWait;
+            airBoostPressed = false;
         }
     }
 
     private Vector2 boostDirection() {
         // up right
-        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D)) {
+        if (UpHeld && RightHeld) {
             return new Vector2(1, 1);
         }
 
         // down right 
-        if (Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.S)) {
+        if (RightHeld && DownHeld) {
             return new Vector2(1, -1);
         }
 
         // down left
-        if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A)) {
+        if (DownHeld && LeftHeld) {
             return new Vector2(-1, -1);
         }
 
         // up left
-        if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.W)) {
+        if (LeftHeld && UpHeld) {
             return new Vector2(-1, 1);
         }
 
         // up
-        if (Input.GetKey(KeyCode.W)) {
+        if (UpHeld) {
             return Vector2.up;
         }
 
         // right 
-        if (Input.GetKey(KeyCode.D)) {
+        if (RightHeld) {
             return Vector2.right;
         }
 
         // down
-        if (Input.GetKey(KeyCode.S)) {
+        if (DownHeld) {
             return Vector2.down;
         }
 
         // left
-        if (Input.GetKey(KeyCode.A)) {
+        if (LeftHeld) {
             return Vector2.left;
         }
 
@@ -235,11 +247,11 @@ public class Player : MonoBehaviour {
     // --------------------------------------------------------------
     private void GroundMovement() {
         int x = 0;
-        if (Input.GetKey(KeyCode.A)) {
+        if (LeftHeld) {
             x += -1;
         }
 
-        if (Input.GetKey(KeyCode.D)) {
+        if (RightHeld) {
             x += 1;
         }
 

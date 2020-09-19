@@ -14,11 +14,8 @@ public class PlayerEditor : Editor {
         // draw player boost radius
         Handles.DrawWireDisc(playerPos, Vector3.back, player.boostRadius);
         
-        // draw player detach radius
-        Handles.color = Color.red;
-        Handles.DrawWireDisc(playerPos, Vector3.back, player.detachRadius);
-        
         // draw player ground detection
+        Handles.color = Color.red;
         Handles.DrawWireDisc(playerPos + player.bottomOffset, Vector3.back, player.collisionRadius);
         
         // draw mouse grapple range
