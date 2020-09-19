@@ -364,8 +364,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0002846b36ed8c4cbdbf2d0672a7226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalMax: 1
-  verticalMax: 0.5
+  horizontalMax: 2
+  verticalMax: 0.8
   player: {fileID: 4566355425121365555}
   mainCamera: {fileID: 4566355424755485082}
 --- !u!61 &4566355425121365552
