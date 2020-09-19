@@ -33,20 +33,20 @@ public class CameraFollow : MonoBehaviour
     void Update()
     {
         
-        if (player.velocity.x < 0)
+        if (player.velocity.x < -.1)
         {
             targetOffset.x = -horizontalMax;
         }
-        else if (player.velocity.x > 0)
+        else if (player.velocity.x > .1)
         {
             targetOffset.x = horizontalMax;
         }
 
-        if (player.velocity.y < 0)
+        if (player.velocity.y < -.1)
         {
             targetOffset.y = -verticalMax;
         }
-        else if (player.velocity.y > 0)
+        else if (player.velocity.y > .1)
         {
             targetOffset.y = verticalMax;
         }
