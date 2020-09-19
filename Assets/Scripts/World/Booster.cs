@@ -20,7 +20,7 @@ public class Booster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyUp("k") && canBoost)
+        if(Input.GetKeyUp("space") && canBoost)
         {
             rb.AddForce(Vector2.up * boostForce);
             Debug.Log("Woooosh!");

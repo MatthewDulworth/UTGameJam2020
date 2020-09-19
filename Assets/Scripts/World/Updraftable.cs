@@ -22,7 +22,7 @@ public class Updraftable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey("k") && isPlayer)
+        if (Input.GetKey("space") && isPlayer)
         {
             willUpdraft = true;
         }
