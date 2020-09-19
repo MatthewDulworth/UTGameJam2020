@@ -11,12 +11,10 @@ public class Player : MonoBehaviour {
     public float grappleAccel;
     public float grappleRadius;
     public float mouseRadius;
-    public float detachRadius;
 
     // boost
     public float boostRadius;
     public float boostForce;
-    public float boostWait;
 
     // ground detection
     public float collisionRadius;
@@ -33,28 +31,34 @@ public class Player : MonoBehaviour {
     private Rigidbody2D rb;
     private LineRenderer lineRenderer;
     private Vector2 startPos;
-    
+
     // mouse input
     private bool grapplePressed;
     private bool grappleHeld;
     private Vector2 mousePos;
-    
+
+    // direction input
+    private bool upHeld;
+    private bool leftHeld;
+    private bool rightHeld;
+    private bool downHeld;
+
+    // --------------------------------------------------------------
+    // Mono Methods
+    // --------------------------------------------------------------
+
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
         lineRenderer = GetComponent<LineRenderer>();
         startPos = transform.position;
     }
-    
+
     private void Update() {
         if (Input.GetKey(KeyCode.R)) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
-        Vector3 pos = Input.mousePosition;
-        pos.z = Camera.main.nearClipPlane;
-        mousePos = Camera.main.ScreenToWorldPoint(pos);
-        grapplePressed = Input.GetMouseButtonDown(0) || grapplePressed;
-        grappleHeld = Input.GetMouseButton(0);
+        UpdateInputs();
     }
 
     private void FixedUpdate() {
@@ -68,22 +72,20 @@ public class Player : MonoBehaviour {
         }
     }
 
-
     // --------------------------------------------------------------
-    // Air Movement
+    // Input
     // --------------------------------------------------------------
-    private void AirMovement() {
-        int x = 0;
-        if (Input.GetKey(KeyCode.A)) {
-            x += -1;
-        }
+    private void UpdateInputs() {
+        Vector3 pos = Input.mousePosition;
+        pos.z = Camera.main.nearClipPlane;
+        mousePos = Camera.main.ScreenToWorldPoint(pos);
+        grapplePressed = Input.GetMouseButtonDown(0) || grapplePressed;
+        grappleHeld = Input.GetMouseButton(0);
 
-        if (Input.GetKey(KeyCode.D)) {
-            x += 1;
-        }
-
-        rb.AddForce(new Vector2(x, 0) * airAcceleration);
-        rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
+        upHeld = Input.GetKey(KeyCode.W);
+        downHeld = Input.GetKey(KeyCode.S);
+        leftHeld = Input.GetKey(KeyCode.A);
+        rightHeld = Input.GetKey(KeyCode.D);
     }
 
     // --------------------------------------------------------------
@@ -109,10 +111,6 @@ public class Player : MonoBehaviour {
             lineRenderer.positionCount = 2;
             lineRenderer.SetPosition(0, origin);
             lineRenderer.SetPosition(1, grapplePoint);
-
-            if (Vector2.Distance(origin, grapplePoint) <= detachRadius) {
-                grappling = false;
-            }
         }
         else {
             grappling = false;
@@ -137,115 +135,96 @@ public class Player : MonoBehaviour {
         return transform.position;
     }
 
-    private Vector2 ClosestGrappleInRange(Vector2 origin) {
-        Collider2D[] grapplePoints = Physics2D.OverlapCircleAll(transform.position, grappleRadius, grapplePointLayer);
-
-        if (grapplePoints.Length > 0) {
-            float closestDist = Mathf.Infinity;
-            Vector2 closestPoint = transform.position;
-
-            foreach (Collider2D collide in grapplePoints) {
-                Vector2 point = collide.transform.position;
-                Vector2 direction = (point - origin).normalized;
-                float dist = Vector2.Distance(point, origin);
-
-                if (dist < closestDist && !Physics2D.Raycast(origin, direction, dist, groundLayer)) {
-                    closestDist = dist;
-                    closestPoint = collide.transform.position;
-                }
-            }
-
-            return closestPoint;
-        }
-
-        return transform.position;
-    }
-
     // --------------------------------------------------------------
     // Air Boost
     // --------------------------------------------------------------
 
-
     private void AirBoost() {
         Vector2 playerPos = transform.position;
-
-        if (boostWaitRemaining > 0) {
-            boostWaitRemaining -= Time.deltaTime;
-
-            if (boostWaitRemaining <= 0) {
-                rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-                rb.AddForce(boostDirection() * boostForce, ForceMode2D.Impulse);
-            }
-        }
-
-        else if (Input.GetKeyDown(KeyCode.LeftShift) && Physics2D.OverlapCircle(playerPos, boostRadius, boostLayer)) {
+        Vector2 dir = BoostDirection();
+        if (dir != Vector2.zero && Physics2D.OverlapCircle(playerPos, boostRadius, boostLayer)) {
             rb.velocity = Vector2.zero;
-            rb.constraints = RigidbodyConstraints2D.FreezeAll;
-            boostWaitRemaining = boostWait;
+            rb.AddForce(BoostDirection() * boostForce, ForceMode2D.Impulse);
         }
     }
 
-    private Vector2 boostDirection() {
+    private Vector2 BoostDirection() {
         // up right
-        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D)) {
+        if (upHeld && rightHeld) {
             return new Vector2(1, 1);
         }
 
         // down right 
-        if (Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.S)) {
+        if (rightHeld && downHeld) {
             return new Vector2(1, -1);
         }
 
         // down left
-        if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A)) {
+        if (downHeld && leftHeld) {
             return new Vector2(-1, -1);
         }
 
         // up left
-        if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.W)) {
+        if (leftHeld && upHeld) {
             return new Vector2(-1, 1);
         }
 
         // up
-        if (Input.GetKey(KeyCode.W)) {
+        if (upHeld) {
             return Vector2.up;
         }
 
         // right 
-        if (Input.GetKey(KeyCode.D)) {
+        if (rightHeld) {
             return Vector2.right;
         }
 
         // down
-        if (Input.GetKey(KeyCode.S)) {
+        if (downHeld) {
             return Vector2.down;
         }
 
         // left
-        if (Input.GetKey(KeyCode.A)) {
+        if (leftHeld) {
             return Vector2.left;
         }
 
         return Vector2.zero;
     }
 
-
     // --------------------------------------------------------------
-    // Grounded Movement
+    // Movement
     // --------------------------------------------------------------
     private void GroundMovement() {
         int x = 0;
-        if (Input.GetKey(KeyCode.A)) {
+        if (leftHeld) {
             x += -1;
         }
 
-        if (Input.GetKey(KeyCode.D)) {
+        if (rightHeld) {
             x += 1;
         }
 
         rb.velocity = new Vector2(x * groundSpeed, rb.velocity.y);
     }
 
+    private void AirMovement() {
+        int x = 0;
+        if (leftHeld) {
+            x += -1;
+        }
+
+        if (rightHeld) {
+            x += 1;
+        }
+
+        rb.AddForce(new Vector2(x, 0) * airAcceleration);
+        rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
+    }
+
+    // --------------------------------------------------------------
+    // Collisions
+    // --------------------------------------------------------------
     private bool Grounded() {
         return Physics2D.OverlapCircle((Vector2) transform.position + bottomOffset, collisionRadius, groundLayer);
     }
@@ -255,7 +234,7 @@ public class Player : MonoBehaviour {
         if (obj.tag.ToLower().Equals("movingplatform")) {
             gameObject.transform.parent = obj.transform;
         }
-        
+
         if (obj.tag.ToLower().Equals("hazard")) {
             transform.position = startPos;
             rb.velocity = Vector2.zero;
