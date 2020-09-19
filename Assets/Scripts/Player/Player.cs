@@ -38,10 +38,20 @@ public class Player : MonoBehaviour {
         lineRenderer = GetComponent<LineRenderer>();
     }
 
+    private bool grapplePressed;
+    private bool grappleHeld;
+    private Vector2 mousePos;
+
     private void Update() {
         if (Input.GetKey(KeyCode.R)) {
              SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
+        
+        Vector3 pos = Input.mousePosition;
+        pos.z = Camera.main.nearClipPlane;
+        mousePos = Camera.main.ScreenToWorldPoint(pos);
+        grapplePressed = Input.GetMouseButtonDown(0);
+        grappleHeld = Input.GetMouseButton(0);
     }
 
     private void FixedUpdate() {
@@ -79,19 +89,32 @@ public class Player : MonoBehaviour {
     private void Grapple() {
         Vector2 origin = transform.position;
 
-        if (!grappling && Input.GetMouseButtonDown(0)) {
+        if (grappleHeld) {
+            Debug.Log("Mouse button is held");
+        }
+        if (grapplePressed) {
+            Debug.Log("Mouse button was pressed");
+        }
+
+        if (!grappling && grapplePressed) {
             grapplePoint = ClosestGrappleMouse();
+            
+            Debug.Log("grapple start");
 
             if (grapplePoint != origin) {
                 grappling = true;
             }
+        } else if (grapplePressed && grappleHeld) {
+            Debug.Log(grappling);
         }
 
-        if (Input.GetMouseButton(0) && grappling) {
+        if (grappleHeld && grappling) {
             Vector2 dir = (grapplePoint - origin).normalized;
             rb.AddForce(dir * grappleAccel);
             rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
 
+            Debug.Log("grappling");
+            
             lineRenderer.positionCount = 2;
             lineRenderer.SetPosition(0, origin);
             lineRenderer.SetPosition(1, grapplePoint);
@@ -99,17 +122,14 @@ public class Player : MonoBehaviour {
             if (Vector2.Distance(origin, grapplePoint) <= detachRadius) {
                 grappling = false;
             }
-        }
-        else {
+        } else {
+            Debug.Log("not grappling");
             grappling = false;
             lineRenderer.positionCount = 0;
         }
     }
 
     private Vector2 ClosestGrappleMouse() {
-        Vector3 pos = Input.mousePosition;
-        pos.z = Camera.main.nearClipPlane;
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(pos);
         Collider2D[] grappleColliders = Physics2D.OverlapCircleAll(mousePos, mouseRadius, grapplePointLayer);
 
         if (grappleColliders.Length > 0) {
