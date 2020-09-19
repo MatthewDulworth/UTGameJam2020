@@ -42,6 +42,7 @@ public class Player : MonoBehaviour {
     private bool leftHeld;
     private bool rightHeld;
     private bool downHeld;
+    private bool airBoostPressed;
 
     // --------------------------------------------------------------
     // Mono Methods
@@ -86,6 +87,10 @@ public class Player : MonoBehaviour {
         downHeld = Input.GetKey(KeyCode.S);
         leftHeld = Input.GetKey(KeyCode.A);
         rightHeld = Input.GetKey(KeyCode.D);
+
+        airBoostPressed = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) ||
+                          Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) ||
+                          airBoostPressed;
     }
 
     // --------------------------------------------------------------
