@@ -27,12 +27,7 @@ public class AudioManager : MonoBehaviour {
             s.Init(gameObject.AddComponent<AudioSource>());
         }
     }
-
-    private void Start() {
-        Play("note");
-        Play("wind");
-    }
-
+    
     // plays a specified audio clip
     public void Play(string soundName) {
         Sound s = Array.Find(sounds, sound => sound.name == soundName);
