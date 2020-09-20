@@ -152,6 +152,8 @@ public class Player : MonoBehaviour {
                 grappling = true;
                 grapplePressed = false;
             }
+            
+            anim.SetBool(Grapple1, true);
         }
 
         if (grappleHeld && grappling) {
@@ -166,6 +168,7 @@ public class Player : MonoBehaviour {
         else {
             grappling = false;
             lineRenderer.positionCount = 0;
+            anim.SetBool(Grapple1, false);
         }
     }
 
@@ -314,6 +317,7 @@ public class Player : MonoBehaviour {
     // Movement
     // --------------------------------------------------------------
     public bool facingRight;
+    private static readonly int Grapple1 = Animator.StringToHash("Grappling");
 
     private void GroundMovement() {
         int x = 0;
