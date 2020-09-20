@@ -31,10 +31,10 @@ public class Player : MonoBehaviour {
     private Vector2 grapplePoint;
     private Rigidbody2D rb;
     private LineRenderer lineRenderer;
-    private Vector2 startPos;
     private Animator anim;
     private GameObject[] grapplePoints;
     private GameObject[] boostPoints;
+    private Respawner respawner;
 
     // mouse input
     private bool grapplePressed;
@@ -56,8 +56,8 @@ public class Player : MonoBehaviour {
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
         lineRenderer = GetComponent<LineRenderer>();
-        startPos = transform.position;
         anim = GetComponent<Animator>();
+        respawner = GetComponent<Respawner>();
     }
 
     private void Start() {
@@ -83,6 +83,9 @@ public class Player : MonoBehaviour {
         }
         else {
             AirMovement();
+            if (anim.GetBool(Walking)) {
+                 anim.SetBool(Walking, false);
+            }
         }
     }
 
@@ -306,6 +309,19 @@ public class Player : MonoBehaviour {
 
         rb.AddForce(new Vector2(x, 0) * airAcceleration);
         rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
+        
+         if (!facingRight && x < 0 || facingRight && x > 0) {
+
+            Transform cam = transform.GetChild(0);
+            cam.parent = null;
+            
+            Vector3 scale = transform.localScale;
+            scale.x *= -1;
+            transform.localScale = scale;
+
+            cam.parent = transform;
+            facingRight = !facingRight;
+        }
     }
 
     // --------------------------------------------------------------
@@ -322,8 +338,8 @@ public class Player : MonoBehaviour {
         }
 
         if (obj.tag.ToLower().Equals("hazard")) {
-            transform.position = startPos;
             rb.velocity = Vector2.zero;
+            respawner.respawn();
             grappling = false;
         }
     }
