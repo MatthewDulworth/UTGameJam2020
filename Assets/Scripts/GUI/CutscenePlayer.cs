@@ -10,6 +10,7 @@ public class CutscenePlayer : MonoBehaviour
     public AudioSource[] sounds;
     public Canvas panel;
     public CutscenePlayer next;
+    public int nextSceneIndex = 2;
 
     // Start is called before the first frame update
     void Start()
@@ -54,7 +55,7 @@ public class CutscenePlayer : MonoBehaviour
         }
         else
         {
-            SceneSwitcher.Instance().loadScene(2, 3, 3);
+            SceneSwitcher.Instance().loadScene(nextSceneIndex, 3, 3);
         }
     }
 }

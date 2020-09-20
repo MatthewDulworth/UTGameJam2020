@@ -25,7 +25,7 @@ public class Player : MonoBehaviour {
     public LayerMask boostLayer;
     public LayerMask grapplePointLayer;
     public LayerMask groundLayer;
-    
+
     // audio
     public AudioClip leftStep;
     public AudioClip rightStep;
@@ -44,6 +44,7 @@ public class Player : MonoBehaviour {
     private GameObject[] grapplePoints;
     private GameObject[] boostPoints;
     private Respawner respawner;
+    public bool alive = true;
 
     // mouse input
     private bool grapplePressed;
@@ -76,27 +77,26 @@ public class Player : MonoBehaviour {
     }
 
     private void Update() {
-        if (Input.GetKey(KeyCode.R)) {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-
         UpdateInputs();
         GrappleInRangeIndicator();
         BoostInRangeIndicator();
     }
 
     private void FixedUpdate() {
-        AirBoost();
-        Grapple();
-        if (Grounded() && !grappling) {
-            GroundMovement();
-        }
-        else {
-            AirMovement();
-            if (anim.GetBool(Walking)) {
-                 anim.SetBool(Walking, false);
+        if (alive) {
+            AirBoost();
+            Grapple();
+            if (Grounded() && !grappling) {
+                GroundMovement();
             }
-            stepTimeLeft = 0;
+            else {
+                AirMovement();
+                if (anim.GetBool(Walking)) {
+                    anim.SetBool(Walking, false);
+                }
+
+                stepTimeLeft = 0;
+            }
         }
     }
 
@@ -107,19 +107,23 @@ public class Player : MonoBehaviour {
         Vector3 pos = Input.mousePosition;
         pos.z = Camera.main.nearClipPlane;
         mousePos = Camera.main.ScreenToWorldPoint(pos);
-        grapplePressed = Input.GetMouseButtonDown(0) || grapplePressed;
-        grappleHeld = Input.GetMouseButton(0);
+        // grapplePressed = Input.GetMouseButtonDown(0) || grapplePressed;
+        // grappleHeld = Input.GetMouseButton(0);
+        grapplePressed = Input.GetKeyDown(KeyCode.Space) || grapplePressed;
+        grappleHeld = Input.GetKey(KeyCode.Space);
 
-        upHeld = Input.GetKey(KeyCode.W);
-        downHeld = Input.GetKey(KeyCode.S);
-        leftHeld = Input.GetKey(KeyCode.A);
-        rightHeld = Input.GetKey(KeyCode.D);
+        upHeld = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow);
+        downHeld = Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow);
+        leftHeld = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow);
+        rightHeld = Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow);
 
         airBoostPressed = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) ||
                           Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) ||
+                          Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow) ||
+                          Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow) ||
                           airBoostPressed;
     }
-    
+
     public void FootSteps() {
         if (stepTimeLeft <= 0) {
             footSteps.clip = (step) ? leftStep : rightStep;
@@ -135,11 +139,14 @@ public class Player : MonoBehaviour {
     // --------------------------------------------------------------
     // Grappling
     // --------------------------------------------------------------
+
+
     private void Grapple() {
         Vector2 origin = transform.position;
 
         if (!grappling && grapplePressed) {
-            grapplePoint = ClosestGrappleMouse();
+            // grapplePoint = ClosestGrappleMouse();
+            grapplePoint = ClosestGrapplePoint();
 
             if (grapplePoint != origin) {
                 grappling = true;
@@ -177,6 +184,27 @@ public class Player : MonoBehaviour {
         }
 
         return transform.position;
+    }
+
+    private Vector2 ClosestGrapplePoint() {
+        Vector2 playerPos = transform.position;
+        Collider2D[] grappleColliders = Physics2D.OverlapCircleAll(playerPos, grappleRadius, grapplePointLayer);
+
+        float minDist = Mathf.Infinity;
+        Vector2 closestPoint = playerPos;
+
+        foreach (Collider2D gc in grappleColliders) {
+            Vector2 point = gc.transform.position;
+            Vector2 direction = (point - playerPos).normalized;
+            float distance = Vector2.Distance(playerPos, point);
+
+            if (distance < minDist && !Physics2D.Raycast(playerPos, direction, distance, groundLayer)) {
+                minDist = distance;
+                closestPoint = point;
+            }
+        }
+
+        return closestPoint;
     }
 
     // --------------------------------------------------------------
@@ -286,7 +314,7 @@ public class Player : MonoBehaviour {
     // Movement
     // --------------------------------------------------------------
     public bool facingRight;
-    
+
     private void GroundMovement() {
         int x = 0;
         if (leftHeld) {
@@ -302,15 +330,14 @@ public class Player : MonoBehaviour {
         if (x != 0 && !anim.GetBool(Walking)) {
             anim.SetBool(Walking, true);
         }
-        else if(x == 0 && anim.GetBool(Walking)) {
+        else if (x == 0 && anim.GetBool(Walking)) {
             anim.SetBool(Walking, false);
         }
 
         if (!facingRight && x < 0 || facingRight && x > 0) {
-
             Transform cam = transform.GetChild(0);
             cam.parent = null;
-            
+
             Vector3 scale = transform.localScale;
             scale.x *= -1;
             transform.localScale = scale;
@@ -336,12 +363,11 @@ public class Player : MonoBehaviour {
 
         rb.AddForce(new Vector2(x, 0) * airAcceleration);
         rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
-        
-         if (!facingRight && x < 0 || facingRight && x > 0) {
 
+        if (!facingRight && x < 0 || facingRight && x > 0) {
             Transform cam = transform.GetChild(0);
             cam.parent = null;
-            
+
             Vector3 scale = transform.localScale;
             scale.x *= -1;
             transform.localScale = scale;
@@ -366,7 +392,7 @@ public class Player : MonoBehaviour {
 
         if (obj.tag.ToLower().Equals("hazard")) {
             rb.velocity = Vector2.zero;
-            respawner.respawn();
+            respawner.Die();
             grappling = false;
         }
     }
