@@ -43,17 +43,18 @@ public class CutscenePlayer : MonoBehaviour
         }
 
         yield return new WaitForSecondsRealtime(1.5f);
-        panel.gameObject.SetActive(false);
+        
 
         //trigger next set of messages, otherwise go to next scene
         if (next != null)
         {
+            panel.gameObject.SetActive(false);
             next.enabled = true;
             this.enabled = false;
         }
         else
         {
-            //switch scenes
+            SceneSwitcher.Instance().loadScene(2, 3, 3);
         }
     }
 }
