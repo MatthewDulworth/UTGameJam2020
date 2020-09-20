@@ -821,6 +821,10 @@ PrefabInstance:
       propertyPath: grappleAccel
       value: 40
       objectReference: {fileID: 0}
+    - target: {fileID: 875345318860252553, guid: 850752460587a4e249c9180c36cec3ee, type: 3}
+      propertyPath: grappleRadius
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 875345318860252596, guid: 850752460587a4e249c9180c36cec3ee, type: 3}
       propertyPath: m_Name
       value: Player
