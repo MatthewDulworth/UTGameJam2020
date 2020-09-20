@@ -206,6 +206,9 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8192
+  leftStep: {fileID: 8300000, guid: 2643afb2920864c3facbccee8479236e, type: 3}
+  rightStep: {fileID: 8300000, guid: dc4b9b8f2597b4166ae0d7e3d5692ad1, type: 3}
+  timeBetweenSteps: 0.5
   facingRight: 0
 --- !u!50 &875345318860252552
 Rigidbody2D:

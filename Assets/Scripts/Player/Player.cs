@@ -21,9 +21,18 @@ public class Player : MonoBehaviour {
     public float collisionRadius;
     public Vector2 bottomOffset;
 
+    // layers
     public LayerMask boostLayer;
     public LayerMask grapplePointLayer;
     public LayerMask groundLayer;
+    
+    // audio
+    public AudioClip leftStep;
+    public AudioClip rightStep;
+    public float timeBetweenSteps;
+    private AudioSource footSteps;
+    private float stepTimeLeft;
+    private bool step;
 
     // --- private vars --- //
     private bool grappling;
@@ -58,6 +67,7 @@ public class Player : MonoBehaviour {
         lineRenderer = GetComponent<LineRenderer>();
         anim = GetComponent<Animator>();
         respawner = GetComponent<Respawner>();
+        footSteps = GetComponent<AudioSource>();
     }
 
     private void Start() {
@@ -86,6 +96,7 @@ public class Player : MonoBehaviour {
             if (anim.GetBool(Walking)) {
                  anim.SetBool(Walking, false);
             }
+            stepTimeLeft = 0;
         }
     }
 
@@ -107,6 +118,18 @@ public class Player : MonoBehaviour {
         airBoostPressed = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) ||
                           Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) ||
                           airBoostPressed;
+    }
+    
+    public void FootSteps() {
+        if (stepTimeLeft <= 0) {
+            footSteps.clip = (step) ? leftStep : rightStep;
+            footSteps.Play();
+            step = !step;
+            stepTimeLeft = timeBetweenSteps;
+        }
+        else {
+            stepTimeLeft -= Time.deltaTime;
+        }
     }
 
     // --------------------------------------------------------------
@@ -294,6 +317,10 @@ public class Player : MonoBehaviour {
 
             cam.parent = transform;
             facingRight = !facingRight;
+        }
+
+        if (x != 0) {
+            FootSteps();
         }
     }
 
