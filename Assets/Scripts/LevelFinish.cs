@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(Collider2D)]
+[RequireComponent(typeof(Collider2D))]
 public class LevelFinish : MonoBehaviour
 {
     [Tooltip("Check the build settings for the indexs")]
