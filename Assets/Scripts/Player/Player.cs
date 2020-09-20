@@ -335,15 +335,7 @@ public class Player : MonoBehaviour {
         }
 
         if (!facingRight && x < 0 || facingRight && x > 0) {
-            Transform cam = transform.GetChild(0);
-            cam.parent = null;
-
-            Vector3 scale = transform.localScale;
-            scale.x *= -1;
-            transform.localScale = scale;
-
-            cam.parent = transform;
-            facingRight = !facingRight;
+            Flip();
         }
 
         if (x != 0) {
@@ -365,16 +357,23 @@ public class Player : MonoBehaviour {
         rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
 
         if (!facingRight && x < 0 || facingRight && x > 0) {
-            Transform cam = transform.GetChild(0);
-            cam.parent = null;
-
-            Vector3 scale = transform.localScale;
-            scale.x *= -1;
-            transform.localScale = scale;
-
-            cam.parent = transform;
-            facingRight = !facingRight;
+            Flip();
         }
+    }
+
+    private void Flip() {
+        Transform cam = transform.GetChild(0);
+        Transform bg = transform.GetChild(1);
+        cam.parent = null;
+        bg.parent = null;
+
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
+
+        cam.parent = transform;
+        bg.parent = transform;
+        facingRight = !facingRight;
     }
 
     // --------------------------------------------------------------
