@@ -237,7 +237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -335,6 +335,7 @@ MonoBehaviour:
   - {fileID: 0}
   panel: {fileID: 382043927}
   next: {fileID: 1514628791}
+  nextSceneIndex: 2
 --- !u!4 &456518450
 Transform:
   m_ObjectHideFlags: 0
@@ -476,7 +477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -1144,6 +1145,7 @@ MonoBehaviour:
   - {fileID: 0}
   panel: {fileID: 627547026}
   next: {fileID: 0}
+  nextSceneIndex: 2
 --- !u!4 &1514628792
 Transform:
   m_ObjectHideFlags: 0
