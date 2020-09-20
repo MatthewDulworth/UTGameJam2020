@@ -113,13 +113,15 @@ public class Player : MonoBehaviour {
         grapplePressed = Input.GetKeyDown(KeyCode.Space) || grapplePressed;
         grappleHeld = Input.GetKey(KeyCode.Space);
         
-        upHeld = Input.GetKey(KeyCode.W);
-        downHeld = Input.GetKey(KeyCode.S);
-        leftHeld = Input.GetKey(KeyCode.A);
-        rightHeld = Input.GetKey(KeyCode.D);
+        upHeld = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow);
+        downHeld = Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow);
+        leftHeld = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow);
+        rightHeld = Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow);
 
         airBoostPressed = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) ||
                           Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) ||
+                          Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow) ||
+                          Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow) ||
                           airBoostPressed;
     }
 
