@@ -367,16 +367,13 @@ public class Player : MonoBehaviour {
 
     private void Flip() {
         Transform cam = transform.GetChild(0);
-        Transform bg = transform.GetChild(1);
         cam.parent = null;
-        bg.parent = null;
 
         Vector3 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
 
         cam.parent = transform;
-        bg.parent = transform;
         facingRight = !facingRight;
     }
 
