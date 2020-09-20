@@ -188,7 +188,7 @@ public class Player : MonoBehaviour {
     
     private Vector2 ClosestGrapplePoint() {
         Vector2 playerPos = transform.position;
-        Collider2D[] grappleColliders = Physics2D.OverlapCircleAll(playerPos, mouseRadius, grapplePointLayer);
+        Collider2D[] grappleColliders = Physics2D.OverlapCircleAll(playerPos, grappleRadius, grapplePointLayer);
 
         float minDist = Mathf.Infinity;
         Vector2 closestPoint = playerPos;
